@@ -18,18 +18,21 @@
   - If v is a node and v.color() == R, then v.leftChild().color() == B and v.rightChild().color() == B;
   - All paths from a node v to its external descendants (NULL nodes) have the same number of black nodes.
 ### Basic operations:
-#### ROTATIONS:
-##### Left rotation:
+#### 1 - ROTATIONS:
+##### 1.1 - Left rotation:
+  Let A,B,C,D ∈ RBTree, such that A<D<B<C and A is root.  
+  Left rotation works as in the following image:  
+  ![Left rotation](https://private-user-images.githubusercontent.com/145867084/399763245-10887734-e7ee-4219-a1ba-61ae3b2b13af.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzU4Mzg1MzgsIm5iZiI6MTczNTgzODIzOCwicGF0aCI6Ii8xNDU4NjcwODQvMzk5NzYzMjQ1LTEwODg3NzM0LWU3ZWUtNDIxOS1hMWJhLTYxYWUzYjJiMTNhZi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMTAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDEwMlQxNzE3MThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jZDQyMTNhMTAzNTJkNmFiZThkNGRlMDFmNDBhY2E0NDJkZmY0OThiZjAxZDgyMzMyYTE2OWI0ZDUyYjQ3ZTI3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.FLLdt-ypyQfuwr3CeWpyo1VvzpvhcEQhS_Oy50fIeeg)
+  
+##### 1.2 - Right rotation:
   Still to do
-##### Right rotation:
+##### 1.3 - Double left rotation:
   Still to do
-##### Double left rotation:
+##### 1.4 - Double right rotation:
   Still to do
-##### Double right rotation:
+#### 2 - SEARCH:
   Still to do
-#### SEARCH:
+#### 3 - INSERT:
   Still to do
-#### INSERT:
-  Still to do
-#### REMOVE:
+#### 4 - REMOVE:
   Still to do
