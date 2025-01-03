@@ -34,7 +34,9 @@
   ![Double left rotation](https://github.com/user-attachments/assets/007a74aa-3bfa-421f-a0b9-72860a11ac57)
 
 ##### 1.4 - Double right rotation:
-  Still to do
+  Let A,B,C ∈ RBTree, such that A<B<C and C is root. 
+  Double right rotation works as in the following image: 
+  ![right2](https://github.com/user-attachments/assets/b8869c77-7f69-4e56-a695-af58347b4715)
 #### 2 - SEARCH:
   Still to do
 #### 3 - INSERT:
