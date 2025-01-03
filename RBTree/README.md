@@ -38,7 +38,8 @@
   Double right rotation works as in the following image: 
   ![right2](https://github.com/user-attachments/assets/b8869c77-7f69-4e56-a695-af58347b4715)
 #### 2 - SEARCH:
-  Still to do
+  The algorithm can be seen in the following flowchart:  
+  ![Search](https://github.com/user-attachments/assets/f8052f6a-b087-484a-9e6b-9bc3d1ceed14)
 #### 3 - INSERT:
   Still to do
 #### 4 - REMOVE:
