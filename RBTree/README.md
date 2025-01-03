@@ -36,11 +36,13 @@
 ##### 1.4 - Double right rotation:
   Let A,B,C ∈ RBTree, such that A<B<C and C is root. 
   Double right rotation works as in the following image: 
-  ![right2](https://github.com/user-attachments/assets/b8869c77-7f69-4e56-a695-af58347b4715)
+  ![Double right rotation](https://github.com/user-attachments/assets/b8869c77-7f69-4e56-a695-af58347b4715)
 #### 2 - SEARCH:
   The algorithm can be seen in the following flowchart:  
   ![Search](https://github.com/user-attachments/assets/21312218-4540-4d9c-a647-265ed4eebfde)
 #### 3 - INSERT:
-  Still to do
+  The algorithm can be seen in the following flowcharts:  
+  ![Insert](https://github.com/user-attachments/assets/735bc873-4e73-424b-ad26-f5829b3369d4)
+  ![Balancing insertion](https://github.com/user-attachments/assets/8305a8e6-97c1-48b0-a6a9-2637512f0e73)
 #### 4 - REMOVE:
   Still to do
