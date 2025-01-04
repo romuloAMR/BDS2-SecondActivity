@@ -42,7 +42,7 @@
   ![Search](https://github.com/user-attachments/assets/21312218-4540-4d9c-a647-265ed4eebfde)
 #### 3 - INSERT:
   The algorithm can be seen in the following flowcharts:  
-  ![Insert](https://github.com/user-attachments/assets/735bc873-4e73-424b-ad26-f5829b3369d4)
-  ![Balancing insertion](https://github.com/user-attachments/assets/8305a8e6-97c1-48b0-a6a9-2637512f0e73)
+  ![Insert](https://github.com/user-attachments/assets/334fca98-c0a3-4635-8a43-112b0b984b8a)
+  ![InsertFix](https://github.com/user-attachments/assets/84092b86-e389-4970-b56b-14d03e4bd15a)
 #### 4 - REMOVE:
   Still to do
