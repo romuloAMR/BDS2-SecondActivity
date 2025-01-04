@@ -140,3 +140,66 @@ bool RBTree::search(int data) {
     }
     return this->right->search(data);
 }
+
+bool RBTree::insert(int data) {
+    if(this->isNull()){
+        this->data = data;
+        this->color = Color::RED;
+        this->left = nullptr;
+        this->right = nullptr;
+        this->insertFix();
+        return true;
+    }
+    if (data == this->data) {
+        return false;
+    }
+    if (data > this->data) {
+        this->right->insert(data);
+    } else {
+        this->left->insert(data);
+    }
+}
+
+void RBTree::insertFix() {
+    if(this->parent->isNull()){
+        this->color = Color::BLACK;
+        return;
+    }
+    RBTree* parent = this->parent;
+    if(parent->isRed()){
+        RBTree* grandParent = parent->parent;
+        RBTree* uncle = &(parent->getBrother());
+        grandParent->color = Color::RED;
+        if (uncle->isRed()) {
+            parent->color = Color::BLACK;
+            uncle->color = Color::BLACK;
+            grandParent->insertFix();
+            return;
+        }
+        else {
+            if (grandParent->left == parent){
+                if (parent->left == this) {
+                    parent->color = Color::BLACK;
+                    grandParent->rightRotate();
+                }
+                else {
+                    this->color = Color::BLACK;
+                    grandParent->doubleRightRotate();
+                }
+            }
+            else {
+                if (parent->right == this) {
+                    parent->color = Color::BLACK;
+                    grandParent->leftRotate();
+                }
+                else {
+                    this->color = Color::BLACK;
+                    grandParent->doubleLeftRotate();
+                }
+            }
+        }
+    }
+    else {
+        return;
+    }
+}
