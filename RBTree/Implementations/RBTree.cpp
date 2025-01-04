@@ -73,3 +73,57 @@ RBTree& RBTree::getBrother() {
     }
     return *this->parent->left;
 }
+
+void RBTree::leftRotate() {
+    RBTree* a = this;
+    RBTree* b = this->right;
+    RBTree* d = b->left;
+    RBTree* parent = a->parent;
+
+    if (parent != nullptr) {
+        if (parent->left == a) {
+            parent->left = b;
+        } else {
+            parent->right = b;
+        }
+    }
+    b->parent = parent;
+    a->parent = b;
+    a->right = d;
+    if (d != nullptr) {
+        d->parent = a;
+    }
+    b->left = a;
+}
+
+void RBTree::rightRotate() {
+    RBTree* c = this;
+    RBTree* b = this->left;
+    RBTree* d = b->right;
+    RBTree* parent = c->parent;
+
+    if (parent != nullptr) {
+        if (parent->left == c) {
+            parent->left = b;
+        } else {
+            parent->right = b;
+        }
+    }
+    b->parent = parent;
+    c->parent = b;
+    c->left = d;
+    if (d != nullptr) {
+        d->parent = c;
+    }
+    b->right = c;
+}
+
+void RBTree::doubleLeftRotate() {
+    this->right->rightRotate();
+    this->leftRotate();
+}
+
+void RBTree::doubleRightRotate() {
+    this->left->leftRotate();
+    this->rightRotate();
+}

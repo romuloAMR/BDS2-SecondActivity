@@ -26,7 +26,10 @@ class RBTree {
         bool isRed();
         bool isNull();
         RBTree& getBrother();
-        
+        void leftRotate();
+        void rightRotate();
+        void doubleLeftRotate();
+        void doubleRightRotate();
 };
 
 #endif
