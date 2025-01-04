@@ -1,15 +1,18 @@
 CXX = g++
-FLAGS = -Wall -pedantic -O3
+FLAGS = -Wall -pedantic -Ofast -march=native
 
 all: main
 	./main
 	rm main
 
-main: Objects/main.o
-	$(CXX) $^ $(SFML_FLAGS) $(FLAGS) -o main
+main: Objects/main.o Objects/RBTree.o
+	$(CXX) $(FLAGS) $^ -o main
 
 Objects/main.o: main.cpp
-	$(CXX) $(SFML_FLAGS) $(FLAGS) -c main.cpp -o Objects/main.o
+	$(CXX) $(FLAGS) -c $< -o $@
+
+Objects/RBTree.o: Implementations/RBTree.cpp
+	$(CXX) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -f main Objects/*.o
