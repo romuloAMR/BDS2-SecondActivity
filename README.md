@@ -4,4 +4,4 @@
 - [Heap](https://github.com/romuloAMR/BDS2-SecondActivity/tree/main/Heap);
 - [Binary Tree](https://github.com/romuloAMR/BDS2-SecondActivity/tree/main/BinTree);
 - [AVL Tree](https://github.com/romuloAMR/BDS2-SecondActivity/tree/main/AVLTree);
-- [Red-Black Tree](https://github.com/romuloAMR/BDS2-SecondActivity/tree/main/rbtree).
+- [Red-Black Tree](https://github.com/romuloAMR/BDS2-SecondActivity/tree/main/RBTree).
