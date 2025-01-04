@@ -30,6 +30,7 @@ class RBTree {
         void rightRotate();
         void doubleLeftRotate();
         void doubleRightRotate();
+        bool search(int data);
 };
 
 #endif

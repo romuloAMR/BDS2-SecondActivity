@@ -127,3 +127,16 @@ void RBTree::doubleRightRotate() {
     this->left->leftRotate();
     this->rightRotate();
 }
+
+bool RBTree::search(int data) {
+    if (this == nullptr) {
+        return false;
+    }
+    if (this->data == data) {
+        return true;
+    }
+    if (data < this->data) {
+        return this->left->search(data);
+    }
+    return this->right->search(data);
+}
