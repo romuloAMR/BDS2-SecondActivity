@@ -266,6 +266,25 @@ bool double_right_rotate_test() {
 
     return true;
 }
+bool search_test() {
+    RBTree* tree = new RBTree(10, Color::RED);
+    RBTree* left = new RBTree(5, Color::RED);
+    RBTree* right = new RBTree(15, Color::RED);
+    tree->setLeft(left);
+    tree->setRight(right);
+    left->setParent(tree);
+    right->setParent(tree);
+    if (!tree->search(5)) {
+        return false;
+    }
+    if (!tree->search(15)) {
+        return false;
+    }
+    if (tree->search(20)) {
+        return false;
+    }
+    return true;
+}
 
 int main() {
     std::cout << "Hello, Red-Black Tree!" << std::endl;
@@ -276,5 +295,6 @@ int main() {
     std::cout << "Right rotate test: " << ((right_rotate_teste)?"OK":"ERROR") << std::endl;
     std::cout << "Double left rotate test: " << ((double_left_rotate_test)?"OK":"ERROR") << std::endl;
     std::cout << "Double right rotate test: " << ((double_right_rotate_test)?"OK":"ERROR") << std::endl;
+    std::cout << "Search test: " << ((search_test)?"OK":"ERROR") << std::endl;
     return 0;
 }
