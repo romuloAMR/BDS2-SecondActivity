@@ -285,6 +285,118 @@ bool search_test() {
     }
     return true;
 }
+bool insert_test_case_0() {
+    // Adapting the root case
+    RBTree* tree1 = new RBTree(10, Color::BLACK);
+    tree1->insert(5);
+    RBTree* tree2 = new RBTree(10, Color::RED);
+    tree2->insert(5);
+    if(tree1->getColor() != Color::BLACK) {
+        return false;
+    }
+    if(tree2->getColor() != Color::BLACK) {
+        return false;
+    }
+}
+bool insert_test_case_1() {
+    // Parent is black
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(5);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if (tree->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
+bool insert_test_case_2() {
+    // Parent is red and uncle is red
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(5);
+    tree->insert(15);
+    tree->insert(1);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if (tree->getLeft()->getColor() != Color::BLACK) {
+        return false;
+    }
+    if (tree->getRight()->getColor() != Color::BLACK) {
+        return false;
+    }
+    if (tree->getLeft()->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
+bool insert_test_case_3() {
+    // Parent is red, uncle is black, parent is left child and node is left child
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(8);
+    tree->insert(5);
+    tree->insert(3);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if(tree->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    if(tree->getRight()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
+bool insert_test_case_4() {
+    // Parent is red, uncle is black, parent is left child and node is right child
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(8);
+    tree->insert(5);
+    tree->insert(7);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if(tree->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    if(tree->getRight()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
+bool insert_test_case_5() {
+    // Parent is red, uncle is black, parent is right child and node is right child
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(15);
+    tree->insert(20);
+    tree->insert(25);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if(tree->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    if(tree->getRight()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
+bool insert_test_case_6() {
+    // Parent is red, uncle is black, parent is right child and node is left child
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(15);
+    tree->insert(13);
+    if(tree->getColor() != Color::BLACK) {
+        return false;
+    }
+    if(tree->getLeft()->getColor() != Color::RED) {
+        return false;
+    }
+    if(tree->getRight()->getColor() != Color::RED) {
+        return false;
+    }
+    return true;
+}
 
 int main() {
     std::cout << "Hello, Red-Black Tree!" << std::endl;
@@ -296,5 +408,12 @@ int main() {
     std::cout << "Double left rotate test: " << ((double_left_rotate_test)?"OK":"ERROR") << std::endl;
     std::cout << "Double right rotate test: " << ((double_right_rotate_test)?"OK":"ERROR") << std::endl;
     std::cout << "Search test: " << ((search_test)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 0: " << ((insert_test_case_0)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 1: " << ((insert_test_case_1)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 2: " << ((insert_test_case_2)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 3: " << ((insert_test_case_3)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 4: " << ((insert_test_case_4)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 5: " << ((insert_test_case_5)?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 6: " << ((insert_test_case_6)?"OK":"ERROR") << std::endl;
     return 0;
 }
