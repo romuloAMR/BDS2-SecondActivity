@@ -1,9 +1,8 @@
 # Red-Black Tree
-  > Rust implementation
+  > C++ implementation
 
 ## 📚 Software requirements:
-  - Rustc (used version 1.83.0);
-  - Cargo (used version 1.83.0).
+  - g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0;
 
 ## ✅ How to test:
   ```
