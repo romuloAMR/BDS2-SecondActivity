@@ -5,8 +5,9 @@
   - g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0;
 
 ## ✅ How to test:
+  Move to RBTree dir and execute:
   ```
-  # Still to do
+  make
   ```
 
 ## ✏️ About:
