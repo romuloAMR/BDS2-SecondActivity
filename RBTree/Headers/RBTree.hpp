@@ -9,8 +9,10 @@ class RBTree {
         RBTree* left;
         RBTree* right;
         RBTree* parent;
+        bool issNull;
         Color color;
     public:
+        RBTree();
         RBTree(int data, Color color);
         ~RBTree();
         int getData();
