@@ -1,11 +1,21 @@
 #include "../Headers/RBTree.hpp"
 
-RBTree::RBTree(int data, Color color) {
-    this->data = data;
-    this->color = color;
+RBTree::RBTree() {
+    this->data = 0;
+    this->color = Color::BLACK;
+    this->issNull = true;
     this->left = nullptr;
     this->right = nullptr;
     this->parent = nullptr;
+}
+
+RBTree::RBTree(int data, Color color) {
+    this->data = data;
+    this->color = color;
+    this->issNull = false;
+    this->left = new RBTree();
+    this->right = new RBTree();
+    this->parent = new RBTree();
 }
 
 RBTree::~RBTree() {
@@ -54,24 +64,34 @@ void RBTree::setColor(Color color) {
 }
 
 bool RBTree::isRed() {
-    if (this == nullptr){
+    if (this->isNull()){
         return false;
     }
     return this->color == Color::RED;
 }
 
 bool RBTree::isNull() {
-    return this == nullptr;
+    return this->issNull || this == nullptr;
 }
 
 RBTree& RBTree::getBrother() {
-    if (this->parent == nullptr) {
+    if (this->parent->isNull()) {
         return *this;
     }
+
     if (this == this->parent->left) {
-        return *this->parent->right;
+        if (!this->parent->right->isNull()) {
+            return *this->parent->right;
+        }
     }
-    return *this->parent->left;
+
+    if (this == this->parent->right) {
+        if (!this->parent->left->isNull()) {
+            return *this->parent->left;
+        }
+    }
+
+    return *this;
 }
 
 void RBTree::leftRotate() {
@@ -80,7 +100,7 @@ void RBTree::leftRotate() {
     RBTree* d = b->left;
     RBTree* parent = a->parent;
 
-    if (parent != nullptr) {
+    if (!parent->isNull()) {
         if (parent->left == a) {
             parent->left = b;
         } else {
@@ -90,10 +110,10 @@ void RBTree::leftRotate() {
     b->parent = parent;
     a->parent = b;
     a->right = d;
-    if (d != nullptr) {
+    if (!d->isNull()) {
         d->parent = a;
     }
-    b->left = a;
+    b->left = a;    
 }
 
 void RBTree::rightRotate() {
@@ -102,7 +122,7 @@ void RBTree::rightRotate() {
     RBTree* d = b->right;
     RBTree* parent = c->parent;
 
-    if (parent != nullptr) {
+    if (!parent->isNull()) {
         if (parent->left == c) {
             parent->left = b;
         } else {
@@ -110,12 +130,12 @@ void RBTree::rightRotate() {
         }
     }
     b->parent = parent;
+    b->right = c;
     c->parent = b;
     c->left = d;
-    if (d != nullptr) {
+    if (!d->isNull()) {
         d->parent = c;
     }
-    b->right = c;
 }
 
 void RBTree::doubleLeftRotate() {
@@ -129,77 +149,101 @@ void RBTree::doubleRightRotate() {
 }
 
 bool RBTree::search(int data) {
-    if (this == nullptr) {
+    if (this->isNull()) {
         return false;
     }
     if (this->data == data) {
         return true;
     }
     if (data < this->data) {
-        return this->left->search(data);
+        if (!this->left->isNull()) {
+            return this->left->search(data);
+        } else {
+            return false;
+        }
     }
-    return this->right->search(data);
+    if (!this->right->isNull()) {
+        return this->right->search(data);
+    }
+    return false;
 }
 
 bool RBTree::insert(int data) {
-    if(this->isNull()){
+    if (this->isNull()) {
+        this->issNull = false;
         this->data = data;
         this->color = Color::RED;
-        this->left = nullptr;
-        this->right = nullptr;
+        this->left = new RBTree();
+        this->right = new RBTree();
+        if (this->parent == nullptr) {
+            this->parent = new RBTree();
+        }
         this->insertFix();
         return true;
     }
-    if (data == this->data) {
-        return false;
+    else {
+        if (data < this->data) {
+            if(this->left->isNull()) {
+                this->left = new RBTree(data, Color::RED);
+                this->left->parent = this;
+                this->left->insertFix();
+                return true;
+            }
+            return this->left->insert(data);
+        }
+        else if (data > this->data) {
+            if(this->right->isNull()) {
+                this->right = new RBTree(data, Color::RED);
+                this->right->parent = this;
+                this->right->insertFix();
+                return true;
+            }
+            return this->right->insert(data);
+        }
     }
-    if (data > this->data) {
-        this->right->insert(data);
-    } else {
-        this->left->insert(data);
-    }
+
+    return false;
 }
 
 void RBTree::insertFix() {
-    if(this->parent->isNull()){
+    if(this->parent->isNull()) {
         this->color = Color::BLACK;
         return;
     }
     RBTree* parent = this->parent;
-    if(parent->isRed()){
-        RBTree* grandParent = parent->parent;
-        RBTree* uncle = &(parent->getBrother());
-        grandParent->color = Color::RED;
-        if (uncle->isRed()) {
-            parent->color = Color::BLACK;
-            uncle->color = Color::BLACK;
-            grandParent->insertFix();
-            return;
+    if(!parent->isRed()) {
+        return;
+    }
+    else {
+        RBTree* uncle = &(this->parent->getBrother());
+        RBTree* grandparent = this->parent->parent;
+        grandparent->setColor(Color::RED);
+        if(uncle->isRed()){
+            parent->setColor(Color::BLACK);
+            uncle->setColor(Color::BLACK);
+            grandparent->insertFix();
         }
         else {
-            if (grandParent->left == parent){
-                if (parent->left == this) {
-                    parent->color = Color::BLACK;
-                    grandParent->rightRotate();
+            if(grandparent->left == parent) {
+                if(parent->left == this){
+                    parent->setColor(Color::BLACK);
+                    grandparent->rightRotate();
                 }
                 else {
-                    this->color = Color::BLACK;
-                    grandParent->doubleRightRotate();
+                    this->setColor(Color::BLACK);
+                    grandparent->doubleRightRotate();
                 }
             }
             else {
-                if (parent->right == this) {
-                    parent->color = Color::BLACK;
-                    grandParent->leftRotate();
+                if(parent->right == this){
+                    parent->setColor(Color::BLACK);
+                    grandparent->leftRotate();
                 }
                 else {
-                    this->color = Color::BLACK;
-                    grandParent->doubleLeftRotate();
+                    this->setColor(Color::BLACK);
+                    grandparent->doubleLeftRotate();
                 }
             }
         }
-    }
-    else {
-        return;
     }
 }
