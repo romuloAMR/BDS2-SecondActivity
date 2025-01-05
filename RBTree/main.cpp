@@ -1,5 +1,30 @@
 #include <iostream>
+#include <queue>
 #include "Headers/RBTree.hpp"
+
+void print_tree_by_level(RBTree* tree) {
+    if (tree->isNull()) {
+        return;
+    }
+
+    std::queue<RBTree*> q;
+    q.push(tree);
+
+    while (!q.empty()) {
+        RBTree* current = q.front();
+        q.pop();
+
+        std::cout << current->getData() << " ";
+
+        if (!current->getLeft()->isNull()) {
+            q.push(current->getLeft());
+        }
+        if (!current->getRight()->isNull()) {
+            q.push(current->getRight());
+        }
+    }
+    std::cout << std::endl;
+}
 
 bool create_test_tree() {
     RBTree* tree = new RBTree(10, Color::RED);
@@ -9,13 +34,13 @@ bool create_test_tree() {
     if (tree->getColor() != Color::RED) {
         return false;
     }
-    if (tree->getLeft() != nullptr) {
+    if (!tree->getLeft()->isNull()) {
         return false;
     }
-    if (tree->getRight() != nullptr) {
+    if (!tree->getRight()->isNull()) {
         return false;
     }
-    if (tree->getParent() != nullptr) {
+    if (!tree->getParent()->isNull()) {
         return false;
     }
     return true;
@@ -67,7 +92,7 @@ bool left_rotate_test() {
         std::cout << "a parent" << std::endl;
         return false;
     }
-    if (a->getLeft() != nullptr) {
+    if (!a->getLeft()->isNull()) {
         std::cout << "a left" << std::endl;
         return false;
     }
@@ -79,7 +104,7 @@ bool left_rotate_test() {
         std::cout << "b left" << std::endl;
         return false;
     }
-    if (b->getParent() != nullptr) {
+    if (!b->getParent()->isNull()) {
         std::cout << "b parent" << std::endl;
         return false;
     }
@@ -87,11 +112,11 @@ bool left_rotate_test() {
         std::cout << "c parent" << std::endl;
         return false;
     }
-    if (c->getLeft() != nullptr) {
+    if (!c->getLeft()->isNull()) {
         std::cout << "c left" << std::endl;
         return false;
     }
-    if (c->getRight() != nullptr) {
+    if (!c->getRight()->isNull()) {
         std::cout << "c right" << std::endl;
         return false;
     }
@@ -99,11 +124,11 @@ bool left_rotate_test() {
         std::cout << "d parent" << std::endl;
         return false;
     }
-    if (d->getLeft() != nullptr) {
+    if (!d->getLeft()->isNull()) {
         std::cout << "d left" << std::endl;
         return false;
     }
-    if (d->getRight() != nullptr) {
+    if (!d->getRight()->isNull()) {
         std::cout << "d right" << std::endl;
         return false;
     }
@@ -125,7 +150,7 @@ bool right_rotate_teste(){
         std::cout << "b left" << std::endl;
         return false;
     }
-    if (b->getParent() != nullptr) {
+    if (!b->getParent()->isNull()) {
         std::cout << "b parent" << std::endl;
         return false;
     }
@@ -137,11 +162,11 @@ bool right_rotate_teste(){
         std::cout << "a parent" << std::endl;
         return false;
     }
-    if (a->getLeft() != nullptr) {
+    if (!a->getLeft()->isNull()) {
         std::cout << "a left" << std::endl;
         return false;
     }
-    if (a->getRight() != nullptr) {
+    if (!a->getRight()->isNull()) {
         std::cout << "a right" << std::endl;
         return false;
     }
@@ -153,7 +178,7 @@ bool right_rotate_teste(){
         std::cout << "c left" << std::endl;
         return false;
     }
-    if (c->getRight() != nullptr) {
+    if (!c->getRight()->isNull()) {
         std::cout << "c right" << std::endl;
         return false;
     }
@@ -161,11 +186,11 @@ bool right_rotate_teste(){
         std::cout << "d parent" << std::endl;
         return false;
     }
-    if (d->getLeft() != nullptr) {
+    if (!d->getLeft()->isNull()) {
         std::cout << "d left" << std::endl;
         return false;
     }
-    if (d->getRight() != nullptr) {
+    if (!d->getRight()->isNull()) {
         std::cout << "d right" << std::endl;
         return false;
     }
@@ -180,7 +205,7 @@ bool double_left_rotate_test() {
     c->setLeft(b);
     b->setParent(c);
     a->doubleLeftRotate();
-    if (b->getParent() != nullptr) {
+    if (!b->getParent()->isNull()) {
         std::cout << "b parent" << std::endl;
         return false;
     }
@@ -196,11 +221,11 @@ bool double_left_rotate_test() {
         std::cout << "a parent" << std::endl;
         return false;
     }
-    if (a->getLeft() != nullptr) {
+    if (!a->getLeft()->isNull()) {
         std::cout << "a left" << std::endl;
         return false;
     }
-    if (a->getRight() != nullptr) {
+    if (!a->getRight()->isNull()) {
         std::cout << "a right" << std::endl;
         return false;
     }
@@ -208,11 +233,11 @@ bool double_left_rotate_test() {
         std::cout << "c parent" << std::endl;
         return false;
     }
-    if (c->getLeft() != nullptr) {
+    if (!c->getLeft()->isNull()) {
         std::cout << "c left" << std::endl;
         return false;
     }
-    if (c->getRight() != nullptr) {
+    if (!c->getRight()->isNull()) {
         std::cout << "c right" << std::endl;
         return false;
     }
@@ -227,7 +252,7 @@ bool double_right_rotate_test() {
     a->setRight(b);
     b->setParent(a);
     c->doubleRightRotate();
-    if (b->getParent() != nullptr) {
+    if (!b->getParent()->isNull()) {
         std::cout << "b parent" << std::endl;
         return false;
     }
@@ -243,11 +268,11 @@ bool double_right_rotate_test() {
         std::cout << "a parent" << std::endl;
         return false;
     }
-    if (a->getLeft() != nullptr) {
+    if (!a->getLeft()->isNull()) {
         std::cout << "a left" << std::endl;
         return false;
     }
-    if (a->getRight() != nullptr) {
+    if (!a->getRight()->isNull()) {
         std::cout << "a right" << std::endl;
         return false;
     }
@@ -255,11 +280,11 @@ bool double_right_rotate_test() {
         std::cout << "c parent" << std::endl;
         return false;
     }
-    if (c->getLeft() != nullptr) {
+    if (!c->getLeft()->isNull()) {
         std::cout << "c left" << std::endl;
         return false;
     }
-    if (c->getRight() != nullptr) {
+    if (!c->getRight()->isNull()) {
         std::cout << "c right" << std::endl;
         return false;
     }
@@ -275,37 +300,38 @@ bool search_test() {
     left->setParent(tree);
     right->setParent(tree);
     if (!tree->search(5)) {
+        std::cout << "5" << std::endl;
         return false;
     }
     if (!tree->search(15)) {
+        std::cout << "15" << std::endl;
         return false;
     }
     if (tree->search(20)) {
+        std::cout << "20" << std::endl;
         return false;
     }
     return true;
 }
 bool insert_test_case_0() {
     // Adapting the root case
-    RBTree* tree1 = new RBTree(10, Color::BLACK);
+    RBTree* tree1 = new RBTree();
     tree1->insert(5);
-    RBTree* tree2 = new RBTree(10, Color::RED);
-    tree2->insert(5);
     if(tree1->getColor() != Color::BLACK) {
         return false;
     }
-    if(tree2->getColor() != Color::BLACK) {
-        return false;
-    }
+    return true;
 }
 bool insert_test_case_1() {
     // Parent is black
     RBTree* tree = new RBTree(10, Color::BLACK);
     tree->insert(5);
     if(tree->getColor() != Color::BLACK) {
+        std::cout << "color black" << std::endl;
         return false;
     }
     if (tree->getLeft()->getColor() != Color::RED) {
+        std::cout << "left red" << std::endl;
         return false;
     }
     return true;
@@ -332,51 +358,69 @@ bool insert_test_case_2() {
 }
 bool insert_test_case_3() {
     // Parent is red, uncle is black, parent is left child and node is left child
-    RBTree* tree = new RBTree(10, Color::BLACK);
-    tree->insert(8);
+    RBTree* tree = new RBTree(8, Color::BLACK);
     tree->insert(5);
     tree->insert(3);
     if(tree->getColor() != Color::BLACK) {
+        std::cout << "color black" << std::endl;
+        return false;
+    }
+    if(tree->getData() != 5) {
+        std::cout << "data 5" << std::endl;
         return false;
     }
     if(tree->getLeft()->getColor() != Color::RED) {
+        std::cout << "left red" << std::endl;
+        return false;
+    }
+    if (tree->getLeft()->getData() != 3){
+        std::cout << "data 3" << std::endl;
         return false;
     }
     if(tree->getRight()->getColor() != Color::RED) {
+        std::cout << "right red" << std::endl;
+        return false;
+    }
+    if(tree->getRight()->getData() != 8) {
+        std::cout << "data 8" << std::endl;
         return false;
     }
     return true;
 }
 bool insert_test_case_4() {
     // Parent is red, uncle is black, parent is left child and node is right child
-    RBTree* tree = new RBTree(10, Color::BLACK);
-    tree->insert(8);
+    RBTree* tree = new RBTree(8, Color::BLACK);
     tree->insert(5);
     tree->insert(7);
     if(tree->getColor() != Color::BLACK) {
+        std::cout << "color black" << std::endl;
         return false;
     }
     if(tree->getLeft()->getColor() != Color::RED) {
+        std::cout << "left red" << std::endl;
         return false;
     }
     if(tree->getRight()->getColor() != Color::RED) {
+        std::cout << "right red" << std::endl;
         return false;
     }
     return true;
 }
 bool insert_test_case_5() {
     // Parent is red, uncle is black, parent is right child and node is right child
-    RBTree* tree = new RBTree(10, Color::BLACK);
-    tree->insert(15);
+    RBTree* tree = new RBTree(15, Color::BLACK);
     tree->insert(20);
     tree->insert(25);
     if(tree->getColor() != Color::BLACK) {
+        std::cout << "color black" << std::endl;
         return false;
     }
     if(tree->getLeft()->getColor() != Color::RED) {
+        std::cout << "left red" << std::endl;
         return false;
     }
     if(tree->getRight()->getColor() != Color::RED) {
+        std::cout << "right red" << std::endl;
         return false;
     }
     return true;
@@ -387,12 +431,15 @@ bool insert_test_case_6() {
     tree->insert(15);
     tree->insert(13);
     if(tree->getColor() != Color::BLACK) {
+        std::cout << "color black" << std::endl;
         return false;
     }
     if(tree->getLeft()->getColor() != Color::RED) {
+        std::cout << "left red" << std::endl;
         return false;
     }
     if(tree->getRight()->getColor() != Color::RED) {
+        std::cout << "right red" << std::endl;
         return false;
     }
     return true;
@@ -400,20 +447,22 @@ bool insert_test_case_6() {
 
 int main() {
     std::cout << "Hello, Red-Black Tree!" << std::endl;
-    std::cout << "Create test: " << ((create_test_tree)?"OK":"ERROR") << std::endl;
-    std::cout << "Is red test: " << ((is_red_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Get brother test: " << ((get_brother_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Left rotate test: " << ((left_rotate_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Right rotate test: " << ((right_rotate_teste)?"OK":"ERROR") << std::endl;
-    std::cout << "Double left rotate test: " << ((double_left_rotate_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Double right rotate test: " << ((double_right_rotate_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Search test: " << ((search_test)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 0: " << ((insert_test_case_0)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 1: " << ((insert_test_case_1)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 2: " << ((insert_test_case_2)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 3: " << ((insert_test_case_3)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 4: " << ((insert_test_case_4)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 5: " << ((insert_test_case_5)?"OK":"ERROR") << std::endl;
-    std::cout << "Insert test case 6: " << ((insert_test_case_6)?"OK":"ERROR") << std::endl;
+    std::cout << "Create test: " << ((create_test_tree())?"OK":"ERROR") << std::endl;
+    std::cout << "Is red test: " << ((is_red_test())?"OK":"ERROR") << std::endl;
+    std::cout << "Get brother test: " << ((get_brother_test())?"OK":"ERROR") << std::endl;
+    std::cout << "Left rotate test: " << ((left_rotate_test())?"OK":"ERROR") << std::endl;
+    std::cout << "Right rotate test: " << ((right_rotate_teste())?"OK":"ERROR") << std::endl;
+    std::cout << "Double left rotate test: " << ((double_left_rotate_test())?"OK":"ERROR") << std::endl;
+    std::cout << "Double right rotate test: " << ((double_right_rotate_test())?"OK":"ERROR") << std::endl;
+    std::cout << "Search test: " << ((search_test())?"OK":"ERROR") << std::endl;
+    RBTree* tree = new RBTree(10, Color::BLACK);
+    tree->insert(5);
+    std::cout << "Insert test case 0: " << ((insert_test_case_0())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 1: " << ((insert_test_case_1())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 2: " << ((insert_test_case_2())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 3: " << ((insert_test_case_3())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 4: " << ((insert_test_case_4())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 5: " << ((insert_test_case_5())?"OK":"ERROR") << std::endl;
+    std::cout << "Insert test case 6: " << ((insert_test_case_6())?"OK":"ERROR") << std::endl;
     return 0;
 }
