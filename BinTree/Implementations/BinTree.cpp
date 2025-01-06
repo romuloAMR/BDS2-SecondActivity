@@ -129,23 +129,33 @@ void BinTree::removeNode(BinTree* parent, BinTree* node) {
 }
 
 void BinTree::removeRoot() {
-    if (this->left == nullptr && this->right == nullptr) {
+    if (this->getLeft() == nullptr && this->getRight() == nullptr) {
         delete this;
-    } else if (this->left != nullptr && this->right == nullptr){
-        BinTree* temp = this->left;
-        this->setLeft(nullptr);
+    } else if (this->getLeft() != nullptr && this->getRight() == nullptr) {
+        BinTree* temp = this->getLeft();
+        this->setData(temp->getData());
+        this->setLeft(temp->getLeft());
+        this->setRight(temp->getRight());
+        temp->setLeft(nullptr);
+        temp->setRight(nullptr);
         delete temp;
-    } else if (this->left == nullptr && this->right != nullptr){
-        BinTree* temp = this->right;
-        this->setRight(nullptr);
+    } else if (this->getLeft() == nullptr && this->getRight() != nullptr) {
+        BinTree* temp = this->getRight();
+        this->setData(temp->getData());
+        this->setLeft(temp->getLeft());
+        this->setRight(temp->getRight());
+        temp->setLeft(nullptr);
+        temp->setRight(nullptr);
         delete temp;
     } else {
-        BinTree* temp = this->right;
+        BinTree* temp = this->getRight();
+        BinTree* parent = this;
         while (temp->getLeft() != nullptr) {
+            parent = temp;
             temp = temp->getLeft();
         }
         this->setData(temp->getData());
-        removeNode(this, temp);
+        removeNode(parent, temp);
     }
 }
 
