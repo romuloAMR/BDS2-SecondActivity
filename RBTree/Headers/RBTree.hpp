@@ -2,6 +2,8 @@
 #define RBTREE_HPP
 
 #include "../Implementations/Color.cpp"
+#include <iostream>
+#include <queue>
 
 class RBTree {
     private:
@@ -10,9 +12,11 @@ class RBTree {
         RBTree* right;
         RBTree* parent;
         Color color;
+        RBTree(int data, Color color);
+
     public:
         // Constructors and Destructors
-        RBTree(int data, Color color);
+        RBTree(int data);
         ~RBTree();
         
         // Getters
@@ -43,6 +47,7 @@ class RBTree {
         // Search, Insert, Remove, Print
         bool search(int data);
         void insert(int data);
+        void insertFixup();
         void remove(int data);
         void print();
 };

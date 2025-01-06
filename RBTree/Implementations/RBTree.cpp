@@ -9,6 +9,14 @@ RBTree::RBTree(int data, Color color) {
     this->parent = nullptr;
 }
 
+RBTree::RBTree(int data){
+    this->data = data;
+    this->color = Color::BLACK;
+    this->left = nullptr;
+    this->right = nullptr;
+    this->parent = nullptr;
+}
+
 RBTree::~RBTree() {
     if (!this->leftIsNull()) {
         delete this->left;
@@ -144,6 +152,66 @@ bool RBTree::search(int data) {
 }
 
 void RBTree::insert(int data) {
+    if(this->data == data){
+        return;
+    } else if (data > this->data){
+        if (this->rightIsNull()) {
+            this->right = new RBTree(data, Color::RED);
+            this->right->setParent(this);
+            this->right->insertFixup();
+        } else {
+            this->right->insert(data);
+        }
+    } else {
+        if (this->leftIsNull()) {
+            this->left = new RBTree(data, Color::RED);
+            this->left->setParent(this);
+            this->left->insertFixup();
+        } else {
+            this->left->insert(data);
+        }
+    }
+}
+
+void RBTree::insertFixup() {
+    if(this->parentIsNull()) {
+        this->setColor(Color::BLACK);
+        return;
+    } else {
+        RBTree* parent = this->getParent();
+        if (parent->isRed()) {
+            RBTree* grandparent = parent->getParent();
+            RBTree* uncle = parent->getBrother();
+            if (uncle->isRed()) {
+                parent->setColor(Color::BLACK);
+                uncle->setColor(Color::BLACK);
+                grandparent->setColor(Color::RED);
+                grandparent->insertFixup();
+            } else {
+                if (grandparent->getLeft() == parent){
+                    if (parent->getLeft() == this){
+                        parent->setColor(Color::BLACK);
+                        grandparent->setColor(Color::RED);
+                        grandparent = grandparent->rightRotate();
+                    } else {
+                        this->setColor(Color::BLACK);
+                        grandparent->setColor(Color::RED);
+                        grandparent = grandparent->doubleRightRotate();
+                    }
+                } else {
+                    if (parent->getRight() == this) {
+                        parent->setColor(Color::BLACK);
+                        grandparent->setColor(Color::RED);
+                        grandparent = grandparent->leftRotate();
+                    } else {
+                        this->setColor(Color::BLACK);
+                        grandparent->setColor(Color::RED);
+                        grandparent = grandparent->doubleLeftRotate();
+                    }
+                }
+            }
+        }
+    }
     return;
 }
 
@@ -152,5 +220,24 @@ void RBTree::remove(int data) {
 }
 
 void RBTree::print() {
-    return;
+    std::queue<RBTree*> q;
+    q.push(this);
+
+    while (!q.empty()) {
+        int levelSize = q.size();
+
+        while (levelSize--) {
+            RBTree* current = q.front();
+            q.pop();
+            std::cout << current->getData() << "(";
+            std::cout << (current->getColor() == RED ? "R" : "B") << ") ";
+            if (current->getLeft() != nullptr) {
+                q.push(current->getLeft());
+            }
+            if (current->getRight() != nullptr) {
+                q.push(current->getRight());
+            }
+        }
+        std::cout << std::endl;
+    }
 }
