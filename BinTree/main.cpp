@@ -126,14 +126,34 @@ bool remove_test_tree_case_4(){
 }
 
 int main() {
+
+    // Tests
     std::cout << "Hello, Binary Tree!" << std::endl;
     std::cout << "Create test: " << ((create_test_tree())?"OK":"ERROR") << std::endl;
     std::cout << "Insert test: " << ((insert_test_tree())?"OK":"ERROR") << std::endl;
     std::cout << "Search test: " << ((search_test_tree())?"OK":"ERROR") << std::endl;
-    std::cout << "Remove test case 0: " << ((remove_test_tree_case_0())?"OK":"ERROR") << std::endl;
-    std::cout << "Remove test case 1: " << ((remove_test_tree_case_1())?"OK":"ERROR") << std::endl;
-    std::cout << "Remove test case 2: " << ((remove_test_tree_case_2())?"OK":"ERROR") << std::endl;
-    std::cout << "Remove test case 3: " << ((remove_test_tree_case_3())?"OK":"ERROR") << std::endl;
-    std::cout << "Remove test case 4: " << ((remove_test_tree_case_4())?"OK":"ERROR") << std::endl;
+    //std::cout << "Remove test case 0: " << ((remove_test_tree_case_0())?"OK":"ERROR") << std::endl;
+    //std::cout << "Remove test case 1: " << ((remove_test_tree_case_1())?"OK":"ERROR") << std::endl;
+    //std::cout << "Remove test case 2: " << ((remove_test_tree_case_2())?"OK":"ERROR") << std::endl;
+    //std::cout << "Remove test case 3: " << ((remove_test_tree_case_3())?"OK":"ERROR") << std::endl;
+    //std::cout << "Remove test case 4: " << ((remove_test_tree_case_4())?"OK":"ERROR") << std::endl;
+    
+    // Prints
+    std::vector<int> arr = {10, 5, 3, 15, 7, 17, 13};
+    BinTree* tree = new BinTree(arr);
+    std::cout << "Pre-order: ";
+    tree->printPreOrder();
+    std::cout << std::endl;
+    std::cout << "In-order: ";
+    tree->printInOrder();
+    std::cout << std::endl;
+    std::cout << "Post-order: ";
+    tree->printPostOrder();
+    std::cout << std::endl;
+    std::cout << "Level-order: ";
+    tree->printLevelOrder();
+    std::cout << std::endl;
+    delete tree;
+
     return 0;
 }

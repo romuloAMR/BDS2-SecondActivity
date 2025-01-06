@@ -1,10 +1,26 @@
 #include "../Headers/BinTree.hpp"
 
+// constructors and destructor
 BinTree::BinTree(int data) {
     this->data = data;
     this->left = nullptr;
     this->right = nullptr;
 }
+
+BinTree::BinTree(std::vector<int> arr) {
+    int size = arr.size();
+    if (size == 0) {
+        return;
+    }
+    this->data = arr[0];
+    this->left = nullptr;
+    this->right = nullptr;
+    
+    for (int i = 1; i < size; i++) {
+        this->insert(arr[i]);
+    }
+}
+
 
 BinTree::~BinTree() {
     if (this->left != nullptr) {
@@ -15,6 +31,7 @@ BinTree::~BinTree() {
     }
 }
 
+// getters
 int BinTree::getData() const {
     return this->data;
 }
@@ -27,6 +44,7 @@ BinTree* BinTree::getRight() const {
     return this->right;
 }
 
+// setters
 void BinTree::setLeft(BinTree* left) {
     this->left = left;
 }
@@ -39,6 +57,7 @@ void BinTree::setData(int data) {
     this->data = data;
 }
 
+// insert, search, remove
 void BinTree::insert(const int& value) {
     if (value < this->data) {
         if (this->left == nullptr) {
@@ -150,4 +169,51 @@ void BinTree::remove(const int& value, BinTree* parent) {
 
 void BinTree::remove(const int& value) {
     remove(value, nullptr);
+}
+
+// print
+void BinTree::printPreOrder() {
+    std::cout << this->data << " ";
+    if (this->left != nullptr) {
+        this->left->printPreOrder();
+    }
+    if (this->right != nullptr) {
+        this->right->printPreOrder();
+    }
+}
+
+void BinTree::printInOrder() {
+    if (this->left != nullptr) {
+        this->left->printInOrder();
+    }
+    std::cout << this->data << " ";
+    if (this->right != nullptr) {
+        this->right->printInOrder();
+    }
+}
+
+void BinTree::printPostOrder() {
+    if (this->left != nullptr) {
+        this->left->printPostOrder();
+    }
+    if (this->right != nullptr) {
+        this->right->printPostOrder();
+    }
+    std::cout << this->data << " ";
+}
+
+void BinTree::printLevelOrder() {
+    std::queue<BinTree*> q;
+    q.push(this);
+    while (!q.empty()) {
+        BinTree* temp = q.front();
+        q.pop();
+        std::cout << temp->getData() << " ";
+        if (temp->getLeft() != nullptr) {
+            q.push(temp->getLeft());
+        }
+        if (temp->getRight() != nullptr) {
+            q.push(temp->getRight());
+        }
+    }
 }
