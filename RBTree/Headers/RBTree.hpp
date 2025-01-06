@@ -9,32 +9,42 @@ class RBTree {
         RBTree* left;
         RBTree* right;
         RBTree* parent;
-        bool issNull;
         Color color;
     public:
-        RBTree();
+        // Constructors and Destructors
         RBTree(int data, Color color);
         ~RBTree();
+        
+        // Getters
         int getData();
         RBTree* getLeft();
         RBTree* getRight();
         RBTree* getParent();
         Color getColor();
+        bool leftIsNull();
+        bool rightIsNull();
+        bool parentIsNull();
+        bool isRed();
+        RBTree* getBrother();
+
+        // Setters
         void setData(int data);
         void setLeft(RBTree* left);
         void setRight(RBTree* right);
         void setParent(RBTree* parent);
         void setColor(Color color);
-        bool isRed();
-        bool isNull();
-        RBTree& getBrother();
-        void leftRotate();
-        void rightRotate();
-        void doubleLeftRotate();
-        void doubleRightRotate();
+        
+        // Rotations
+        RBTree* leftRotate();
+        RBTree* rightRotate();
+        RBTree* doubleLeftRotate();
+        RBTree* doubleRightRotate();
+
+        // Search, Insert, Remove, Print
         bool search(int data);
-        bool insert(int data);
-        void insertFix();
+        void insert(int data);
+        void remove(int data);
+        void print();
 };
 
 #endif
