@@ -45,6 +45,10 @@ public:
     void printInOrder();
     void printPostOrder();
     void printLevelOrder();
+
+    // converting a vector in a heap/binary tree
+    void heapify(std::vector<int>& arr, int n, int i);
+    BinTree* vectorToMaxHeap(std::vector<int>& arr);
 };
 
 #endif
