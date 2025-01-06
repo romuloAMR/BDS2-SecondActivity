@@ -1,0 +1,23 @@
+Pseudocódigo
+
+1. Tenha o vetor de ordenação  
+2. Construa um heap máximo com todos os elementos do vetor:  
+   - Comece do meio do vetor (índice \( n/2 - 1 \)) e vá até o início (índice 0).  
+   - Para cada índice, ajuste o heap para que o maior valor esteja no topo (raiz).  
+
+3. Agora, inicie o processo de ordenação:  
+   - Troque o primeiro elemento (raiz do heap, o maior valor) com o último elemento do vetor.  
+   - Reduza o tamanho do heap, ignorando o último elemento que já está ordenado.  
+   - Ajuste o heap novamente, garantindo que o maior valor restante esteja na raiz.  
+
+4. Repita o passo 3 até que o heap tenha apenas um elemento.  
+
+5. Quando terminar, o vetor estará ordenado em ordem crescente.  
+
+**Como ajustar o heap (descer um elemento):**  
+1. Escolha o elemento atual (nó) que precisa ser ajustado.  
+2. Compare o nó com seus dois filhos:  
+   - Se um dos filhos for maior que o nó, troque o nó com o maior filho.  
+3. Continue descendo para os filhos até que o nó esteja no lugar certo ou não tenha mais filhos maiores.  
+
+Seguindo essas instruções, você implementa o HeapSort!
