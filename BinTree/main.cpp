@@ -139,7 +139,7 @@ int main() {
     //std::cout << "Remove test case 4: " << ((remove_test_tree_case_4())?"OK":"ERROR") << std::endl;
     
     // Prints
-    std::vector<int> arr = {10, 5, 3, 15, 7, 17, 13};
+    std::vector<int> arr = {10, 5, 15, 3, 7, 13, 17, 4, 16};
     BinTree* tree = new BinTree(arr);
     std::cout << "Pre-order: ";
     tree->printPreOrder();
