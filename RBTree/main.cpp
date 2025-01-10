@@ -311,6 +311,35 @@ bool insert_teste_6(){
     return true;
 }
 
+bool remove_test_tree() {
+    RBTree* tree = new RBTree(10);
+    tree->insert(5);
+    tree->insert(15);
+    tree->insert(1);
+    tree->insert(7);
+
+    tree->remove(1);
+    if (tree->getLeft()->getLeft() != nullptr) {
+        delete tree;
+        return false;
+    }
+
+    tree->remove(5);
+    if (tree->getLeft()->getData() != 7) {
+        delete tree;
+        return false;
+    }
+
+    tree->remove(10);
+    if (tree->getData() != 15) {
+        delete tree;
+        return false;
+    }
+
+    delete tree;
+    return true;
+}
+
 int main() {
     std::cout << "Hello, Red-Black Tree!" << std::endl;
     std::cout << "Create test: " << ((create_test_tree())?"OK":"ERROR") << std::endl;
@@ -327,6 +356,7 @@ int main() {
     std::cout << "Insert test 4: " << ((insert_teste_4())?"OK":"ERROR") << std::endl;
     std::cout << "Insert test 5: " << ((insert_teste_5())?"OK":"ERROR") << std::endl;
     std::cout << "Insert test 6: " << ((insert_teste_6())?"OK":"ERROR") << std::endl;
+    std::cout << "Remove test: " << ((remove_test_tree()) ? "OK" : "ERROR") << std::endl;
 
     RBTree* tree = new RBTree(15);
     tree->insert(18);
