@@ -49,6 +49,7 @@ class RBTree {
         void insert(int data);
         void insertFixup();
         void remove(int data);
+        void removeFixup(RBTree* node, RBTree* parent);
         void print();
 };
 
