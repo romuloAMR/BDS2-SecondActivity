@@ -1,144 +1,91 @@
 /**
  * @file AVLTree.h
- * @brief Definição da classe AVLTree que implementa uma árvore AVL balanceada.
+ * @brief Declaração da classe AVLTree que implementa uma árvore AVL com balanceamento automático.
  */
+#ifndef AVLTREE_H
+#define AVLTREE_H
 
-#ifndef AVL_TREE_H
-#define AVL_TREE_H
+#include <iostream>
+#include <queue>
 
 /**
  * @class AVLTree
- * @brief Classe que representa uma árvore AVL, uma árvore binária de busca balanceada.
+ * @brief Implementação de uma árvore AVL com operações de inserção, remoção e busca balanceadas.
  */
 class AVLTree {
 private:
     /**
      * @struct Node
-     * @brief Representa um nó da árvore AVL.
+     * @brief Representa um nó na árvore AVL.
      */
     struct Node {
-        int key;            ///< Valor armazenado no nó.
-        Node* left;         ///< Ponteiro para o nó filho à esquerda.
-        Node* right;        ///< Ponteiro para o nó filho à direita.
-        int height;         ///< Altura do nó.
-        
+        int key;          ///< Valor armazenado no nó.
+        Node* left;       ///< Ponteiro para o filho esquerdo.
+        Node* right;      ///< Ponteiro para o filho direito.
+        int height;       ///< Altura do nó para fins de balanceamento.
+
         /**
-         * @brief Construtor para inicializar um nó com uma chave.
-         * @param k Valor da chave.
+         * @brief Construtor que inicializa o nó com uma chave.
+         * @param k Valor da chave do nó.
          */
-        Node(int k);
+        Node(int k) : key(k), left(nullptr), right(nullptr), height(1) {}
     };
 
-    Node* root; ///< Ponteiro para a raiz da árvore.
+    Node* root;  ///< Raiz da árvore AVL.
 
-    /**
-     * @brief Obtém a altura de um nó.
-     * @param root Ponteiro para o nó.
-     * @return Altura do nó ou 0 se for nulo.
-     */
-    int height(Node* root);
+    int height(Node* node);         ///< Retorna a altura de um nó.
+    int getBalance(Node* node);     ///< Retorna o fator de balanceamento de um nó.
+    Node* rotateRight(Node* root);  ///< Realiza uma rotação à direita.
+    Node* rotateLeft(Node* root);   ///< Realiza uma rotação à esquerda.
+    Node* rotateLeftRight(Node* root); ///< Realiza uma rotação esquerda-direita.
+    Node* rotateRightLeft(Node* root); ///< Realiza uma rotação direita-esquerda.
+    Node* minValueNode(Node* node); ///< Encontra o nó com o menor valor.
+    Node* insert(Node* root, int key); ///< Insere um valor na árvore.
+    Node* remove(Node* root, int key); ///< Remove um valor da árvore.
+    void balance(Node*& root);       ///< Balanceia a árvore a partir do nó raiz fornecido.
+    bool search(Node* root, int key);///< Busca um valor na árvore.
+    void printLevels(Node* root);    ///< Imprime os níveis da árvore no console.
 
-    /**
-     * @brief Calcula o fator de balanceamento de um nó.
-     * @param root Ponteiro para o nó.
-     * @return Fator de balanceamento.
-     */
-    int getBalance(Node* root);
-
-    /**
-     * @brief Realiza rotação simples à direita.
-     * @param root Ponteiro para o nó raiz da subárvore.
-     * @return Nova raiz após a rotação.
-     */
-    Node* rotateRight(Node* root);
-
-    /**
-     * @brief Realiza rotação simples à esquerda.
-     * @param root Ponteiro para o nó raiz da subárvore.
-     * @return Nova raiz após a rotação.
-     */
-    Node* rotateLeft(Node* root);
-
-    /**
-     * @brief Realiza rotação dupla (esquerda-direita).
-     * @param root Ponteiro para o nó raiz da subárvore.
-     * @return Nova raiz após a rotação.
-     */
-    Node* rotateLeftRight(Node* root);
-
-    /**
-     * @brief Realiza rotação dupla (direita-esquerda).
-     * @param root Ponteiro para o nó raiz da subárvore.
-     * @return Nova raiz após a rotação.
-     */
-    Node* rotateRightLeft(Node* root);
-
-    /**
-     * @brief Encontra o nó com o menor valor em uma subárvore.
-     * @param root Ponteiro para a raiz da subárvore.
-     * @return Ponteiro para o nó com o menor valor.
-     */
-    Node* minValueNode(Node* root);
-
-    /**
-     * @brief Insere um novo valor na árvore de forma recursiva.
-     * @param root Ponteiro para a raiz atual da subárvore.
-     * @param key Valor a ser inserido.
-     * @return Nova raiz da subárvore após a inserção.
-     */
-    Node* insert(Node* root, int key);
-
-    /**
-     * @brief Remove um valor da árvore de forma recursiva.
-     * @param root Ponteiro para a raiz atual da subárvore.
-     * @param key Valor a ser removido.
-     * @return Nova raiz da subárvore após a remoção.
-     */
-    Node* remove(Node* root, int key);
-
-    /**
-     * @brief Busca um valor na árvore de forma recursiva.
-     * @param root Ponteiro para a raiz atual da subárvore.
-     * @param key Valor a ser buscado.
-     * @return True se o valor for encontrado, false caso contrário.
-     */
-    bool search(Node* root, int key);
-
-    /**
-     * @brief Imprime os nós da árvore por nível.
-     * @param root Ponteiro para a raiz da árvore.
-     */
-    void printLevels(Node* root);
 
 public:
     /**
-     * @brief Construtor padrão que inicializa a árvore vazia.
+     * @brief Construtor padrão da árvore AVL.
      */
     AVLTree();
+    ~AVLTree();
 
     /**
-     * @brief Insere um valor na árvore AVL.
+     * @brief Insere um valor na árvore.
      * @param key Valor a ser inserido.
      */
     void insert(int key);
 
     /**
-     * @brief Remove um valor da árvore AVL.
+     * @brief Remove um valor da árvore.
      * @param key Valor a ser removido.
      */
     void remove(int key);
 
     /**
-     * @brief Busca um valor na árvore AVL.
+     * @brief Busca um valor na árvore.
      * @param key Valor a ser buscado.
-     * @return True se o valor for encontrado, false caso contrário.
+     * @return true se o valor for encontrado, false caso contrário.
      */
     bool search(int key);
 
     /**
-     * @brief Imprime a árvore AVL por níveis.
+     * @brief Imprime a árvore no formato de níveis.
      */
     void printTree();
+
+    /**
+     * @brief Deleta a árvore usando a raiz
+     */
+    void deleteTree(Node* root);
+
+    void deleteTree();
+
+    
 };
 
-#endif // AVL_TREE_H
+#endif

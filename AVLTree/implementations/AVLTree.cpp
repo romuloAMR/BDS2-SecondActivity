@@ -1,112 +1,129 @@
-/**
- * @file AVLTree.cpp
- * @brief Implementação da classe AVLTree.
- */
-
 #include "../headers/AVLTree.h"
-#include <iostream>
-#include <queue>
-using namespace std;
 
-AVLTree::Node::Node(int k) : key(k), left(nullptr), right(nullptr), height(1) {}
-
+/**
+ * @brief Construtor que inicializa a árvore AVL com uma raiz nula.
+ */
 AVLTree::AVLTree() : root(nullptr) {}
 
-int AVLTree::height(Node* root) {
-    return root == nullptr ? 0 : root->height;
+/**
+ * @brief Retorna a altura de um nó.
+ * @param node Ponteiro para o nó.
+ * @return Altura do nó ou 0 se o nó for nulo.
+ */
+int AVLTree::height(Node* node) {
+    return (node == nullptr) ? 0 : node->height;
 }
 
-int AVLTree::getBalance(Node* root) {
-    return root == nullptr ? 0 : height(root->left) - height(root->right);
+/**
+ * @brief Retorna o fator de balanceamento de um nó.
+ * @param node Ponteiro para o nó.
+ * @return Diferença entre a altura dos filhos esquerdo e direito.
+ */
+int AVLTree::getBalance(Node* node) {
+    return (node == nullptr) ? 0 : height(node->left) - height(node->right);
 }
 
+/**
+ * @brief Realiza uma rotação à direita.
+ * @param root Ponteiro para o nó raiz a ser rotacionado.
+ * @return Novo nó raiz após a rotação.
+ */
 AVLTree::Node* AVLTree::rotateRight(Node* root) {
-    // Realiza uma rotação simples para a direita para balancear a subárvore.
-    Node* left = root->left;
-    root->left = left->right;
-    left->right = root;
-    root->height = max(height(root->left), height(root->right)) + 1;
-    left->height = max(height(left->left), height(left->right)) + 1;
-    return left;
+    Node* newNode = root->left;
+    root->left = newNode->right;
+    newNode->right = root;
+    root->height = std::max(height(root->left), height(root->right)) + 1;
+    newNode->height = std::max(height(newNode->left), height(newNode->right)) + 1;
+    return newNode;
 }
 
+/**
+ * @brief Realiza uma rotação à esquerda.
+ * @param root Ponteiro para o nó raiz a ser rotacionado.
+ * @return Novo nó raiz após a rotação.
+ */
 AVLTree::Node* AVLTree::rotateLeft(Node* root) {
-    // Realiza uma rotação simples para a esquerda para balancear a subárvore.
-    Node* right = root->right;
-    root->right = right->left;
-    right->left = root;
-    root->height = max(height(root->left), height(root->right)) + 1;
-    right->height = max(height(right->left), height(right->right)) + 1;
-    return right;
+    Node* newNode = root->right;
+    root->right = newNode->left;
+    newNode->left = root;
+    root->height = std::max(height(root->left), height(root->right)) + 1;
+    newNode->height = std::max(height(newNode->left), height(newNode->right)) + 1;
+    return newNode;
 }
 
-AVLTree::Node* AVLTree::rotateLeftRight(Node* root) {
-    // Realiza uma rotação dupla (esquerda-direita).
-    root->left = rotateLeft(root->left);
-    return rotateRight(root);
-}
+/**
+ * @brief Balanceia a árvore a partir de um nó raiz.
+ * @param root Ponteiro para o nó a ser balanceado.
+ */
+void AVLTree::balance(Node*& root) {
+    int balance = getBalance(root);
 
-AVLTree::Node* AVLTree::rotateRightLeft(Node* root) {
-    // Realiza uma rotação dupla (direita-esquerda).
-    root->right = rotateRight(root->right);
-    return rotateLeft(root);
-}
-
-AVLTree::Node* AVLTree::minValueNode(Node* root) {
-    // Encontra o nó com o menor valor na subárvore à direita.
-    Node* current = root;
-    while (current->left != nullptr) {
-        current = current->left;
+    if (balance > 1) {
+        if (getBalance(root->left) < 0) {
+            root->left = rotateLeft(root->left);
+        }
+        root = rotateRight(root);
+    } else if (balance < -1) {
+        if (getBalance(root->right) > 0) {
+            root->right = rotateRight(root->right);
+        }
+        root = rotateLeft(root);
     }
-    return current;
 }
 
+/**
+ * @brief Insere um valor na árvore AVL.
+ * @param key Valor a ser inserido.
+ */
+void AVLTree::insert(int key) {
+    root = insert(root, key);
+}
+
+/**
+ * @brief Remove um valor da árvore AVL.
+ * @param key Valor a ser removido.
+ */
+void AVLTree::remove(int key) {
+    root = remove(root, key);
+}
+
+/**
+ * @brief Insere um valor em um nó.
+ * @param root Nó raiz para inserir.
+ * @param key Valor a ser inserido.
+ * @return Novo nó raiz após a inserção.
+ */
 AVLTree::Node* AVLTree::insert(Node* root, int key) {
-    // Insere um valor na subárvore e realiza balanceamento se necessário.
-    if (root == nullptr) {
-        return new Node(key);
-    }
+    if (root == nullptr) return new Node(key);
+
     if (key < root->key) {
         root->left = insert(root->left, key);
     } else if (key > root->key) {
         root->right = insert(root->right, key);
     } else {
-        return root;
+        return root;  // Valor duplicado não permitido.
     }
-    root->height = 1 + max(height(root->left), height(root->right));
 
-    int balance = getBalance(root);
-
-    if (balance > 1 && key < root->left->key) {
-        return rotateRight(root);
-    }
-    if (balance < -1 && key > root->right->key) {
-        return rotateLeft(root);
-    }
-    if (balance > 1 && key > root->left->key) {
-        return rotateLeftRight(root);
-    }
-    if (balance < -1 && key < root->right->key) {
-        return rotateRightLeft(root);
-    }
+    root->height = 1 + std::max(height(root->left), height(root->right));
+    balance(root);
     return root;
 }
 
-void AVLTree::insert(int key) {
-    root = insert(root, key);
-}
-
+/**
+ * @brief Remove um valor de um nó.
+ * @param root Nó raiz para remoção.
+ * @param key Valor a ser removido.
+ * @return Novo nó raiz após a remoção.
+ */
 AVLTree::Node* AVLTree::remove(Node* root, int key) {
-    // Remove um valor da subárvore e balanceia após a remoção.
-    if (root == nullptr) {
-        return root;
-    }
+    if (root == nullptr) return root;
+
     if (key < root->key) {
         root->left = remove(root->left, key);
     } else if (key > root->key) {
         root->right = remove(root->right, key);
     } else {
-        if ((root->left == nullptr) || (root->right == nullptr)) {
+        if (root->left == nullptr || root->right == nullptr) {
             Node* temp = root->left ? root->left : root->right;
             if (temp == nullptr) {
                 temp = root;
@@ -122,66 +139,100 @@ AVLTree::Node* AVLTree::remove(Node* root, int key) {
         }
     }
 
-    if (root == nullptr) {
-        return root;
-    }
+    if (root == nullptr) return root;
 
-    root->height = 1 + max(height(root->left), height(root->right));
-
-    int balance = getBalance(root);
-
-    if (balance > 1 && getBalance(root->left) >= 0) {
-        return rotateRight(root);
-    }
-    if (balance > 1 && getBalance(root->left) < 0) {
-        root->left = rotateLeft(root->left);
-        return rotateRight(root);
-    }
-    if (balance < -1 && getBalance(root->right) <= 0) {
-        return rotateLeft(root);
-    }
-    if (balance < -1 && getBalance(root->right) > 0) {
-        root->right = rotateRight(root->right);
-        return rotateLeft(root);
-    }
-
+    root->height = 1 + std::max(height(root->left), height(root->right));
+    balance(root);
     return root;
 }
 
-void AVLTree::remove(int key) {
-    root = remove(root, key);
-}
-
-bool AVLTree::search(Node* root, int key) {
-    // Busca recursivamente por um valor na subárvore.
-    if (root == nullptr) return false;
-    if (root->key == key) return true;
-    if (key < root->key) return search(root->left, key);
-    return search(root->right, key);
-}
-
+/**
+ * @brief Busca um valor na árvore AVL.
+ * @param key Valor a ser buscado.
+ * @return true se o valor for encontrado, false caso contrário.
+ */
 bool AVLTree::search(int key) {
     return search(root, key);
 }
 
-void AVLTree::printLevels(Node* root) {
-    // Imprime os nós da árvore nível a nível.
-    if (root == nullptr) return;
-    queue<Node*> q;
-    q.push(root);
-    while (!q.empty()) {
-        size_t levelSize = q.size();
-        for (size_t i = 0; i < levelSize; i++) {
-            Node* current = q.front();
-            q.pop();
-            cout << current->key << " ";
-            if (current->left != nullptr) q.push(current->left);
-            if (current->right != nullptr) q.push(current->right);
-        }
-        cout << endl;
-    }
+/**
+ * @brief Função auxiliar de busca.
+ * @param root Nó raiz para busca.
+ * @param key Valor a ser buscado.
+ * @return true se encontrado, false caso contrário.
+ */
+bool AVLTree::search(Node* root, int key) {
+    if (root == nullptr) return false;
+    if (key == root->key) return true;
+    return key < root->key ? search(root->left, key) : search(root->right, key);
 }
 
+/**
+ * @brief Imprime os níveis da árvore AVL.
+ */
 void AVLTree::printTree() {
     printLevels(root);
 }
+
+/**
+ * @brief Imprime a árvore em níveis para fins de depuração.
+ * @param root Nó raiz para impressão.
+ */
+void AVLTree::printLevels(Node* root) {
+    if (root == nullptr) return;
+    std::queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        size_t levelSize = q.size();
+        for (size_t i = 0; i < levelSize; ++i) {
+            Node* current = q.front();
+            q.pop();
+            std::cout << current->key << " ";
+            if (current->left != nullptr) q.push(current->left);
+            if (current->right != nullptr) q.push(current->right);
+        }
+        std::cout << std::endl;
+    }
+}
+
+/**
+ * @brief Retorna o nó com o menor valor a partir do nó dado.
+ * @param node Nó inicial.
+ * @return Nó com o menor valor.
+ */
+AVLTree::Node* AVLTree::minValueNode(Node* node) {
+    Node* current = node;
+    while (current->left != nullptr) {
+        current = current->left;
+    }
+    return current;
+}
+
+
+/**
+ * @brief Libera toda a memória alocada pela árvore.
+ * @param root Ponteiro para o nó raiz da subárvore.
+ */
+void AVLTree::deleteTree(Node* root) {
+    if (root == nullptr) return;
+
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
+void AVLTree::deleteTree() {
+    if (root == nullptr) return;
+
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
+/**
+ * @brief Destrutor da classe AVLTree para limpar a memória.
+ */
+AVLTree::~AVLTree() {
+    deleteTree();
+}
+
